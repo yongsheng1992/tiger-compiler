@@ -44,7 +44,6 @@ struct intAndTable {
 
 typedef struct intAndTable *IntAndTable_;
 IntAndTable_ interpExp(A_exp e, Table_ t);
-IntAndTable_ interExpList(A_expList exps, Table_ t);
 
 IntAndTable_ IntAndTable(int i, Table_ t) {
     IntAndTable_ intAndTable = checked_malloc(sizeof(*intAndTable));
@@ -88,18 +87,6 @@ IntAndTable_ interpExp(A_exp e, Table_ t) {
         break;
     }
     return NULL;
-}
-
-IntAndTable_ interExpList(A_expList exps, Table_ t) {
-    IntAndTable_ intAndTable;
-    if (exps->kind == A_pairExpList) {
-        intAndTable = interpExp(exps->u.pair.head, t);
-        intAndTable = interExpList(exps->u.pair.tail, intAndTable->t);
-        return intAndTable;
-    } else {
-        intAndTable = interpExp(exps->u.last, t);
-        return intAndTable;
-    }
 }
 
 Table_ interpStm(A_stm s, Table_ t) {
